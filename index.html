@@ -1580,7 +1580,7 @@
             try {
                 let searchQuery = query;
                 if (selectedGenre) searchQuery += ' ' + selectedGenre;
-                const res = await fetch(`http://localhost:4000/search?q=${encodeURIComponent(searchQuery)}`);
+                const res = await fetch(`https://rhythm-26wa.onrender.com/search?q=${encodeURIComponent(searchQuery)}`);
                 const results = await res.json();
                 if (!Array.isArray(results) || results.length === 0) {
                     tubidyResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].noResults}</div>`;
@@ -1598,8 +1598,8 @@
                         </div>
                         <div class=\"track-actions\">
                             <button class=\"action-btn\" title=\"${i18n[currentLang].play}\" onclick=\"tubidyPlay('${item.id}', '${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}', '${item.thumbnail}')\">▶</button>
-                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP3}\" href=\"http://localhost:4000/download?id=${item.id}\" target=\"_blank\">⬇</a>
-                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP4}\" href=\"http://localhost:4000/download-video?id=${item.id}\" target=\"_blank\">🎬</a>
+                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP3}\" href=\"https://rhythm-26wa.onrender.com/download?id=${item.id}\" target=\"_blank\">⬇</a>
+                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP4}\" href=\"https://rhythm-26wa.onrender.com/download-video?id=${item.id}\" target=\"_blank\">🎬</a>
                             <button class=\"action-btn\" title=\"${i18n[currentLang].showLyrics}\" onclick=\"showLyrics('${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}')\">🎤</button>
                         </div>
                     `;
@@ -1628,7 +1628,7 @@
             playerArtist.textContent = decodeURIComponent(channel);
             playerArt.innerHTML = `<img src='${thumbnail}' alt='art' style='width:100%;height:100%;object-fit:cover;border-radius:8px;'>`;
             // Play from backend stream
-            audioPlayer.src = `http://localhost:4000/stream?id=${id}`;
+            audioPlayer.src = `https://rhythm-26wa.onrender.com/stream?id=${id}`;
             audioPlayer.load();
             audioPlayer.play().then(() => {
                 isPlaying = true;
@@ -1646,7 +1646,7 @@
         async function fetchTrendingMusic() {
             trendingResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].loadingTrending}</div>`;
             try {
-                let url = 'http://localhost:4000/trending';
+                let url = 'https://rhythm-26wa.onrender.com/trending';
                 // For genre filtering, we can only filter client-side unless backend supports it
                 const res = await fetch(url);
                 let results = await res.json();
@@ -1669,8 +1669,8 @@
                         </div>
                         <div class=\"track-actions\">
                             <button class=\"action-btn\" title=\"${i18n[currentLang].play}\" onclick=\"tubidyPlay('${item.id}', '${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}', '${item.thumbnail}')\">▶</button>
-                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP3}\" href=\"http://localhost:4000/download?id=${item.id}\" target=\"_blank\">⬇</a>
-                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP4}\" href=\"http://localhost:4000/download-video?id=${item.id}\" target=\"_blank\">🎬</a>
+                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP3}\" href=\"https://rhythm-26wa.onrender.com/download?id=${item.id}\" target=\"_blank\">⬇</a>
+                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP4}\" href=\"https://rhythm-26wa.onrender.com/download-video?id=${item.id}\" target=\"_blank\">🎬</a>
                             <button class=\"action-btn\" title=\"${i18n[currentLang].showLyrics}\" onclick=\"showLyrics('${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}')\">🎤</button>
                         </div>
                     `;
@@ -1743,8 +1743,8 @@
                     </div>
                     <div class=\"track-actions\">
                         <button class=\"action-btn\" title=\"${i18n[currentLang].play}\" onclick=\"tubidyPlay('${item.id}', '${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}', '${item.thumbnail}')\">▶</button>
-                        <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP3}\" href=\"http://localhost:4000/download?id=${item.id}\" target=\"_blank\">⬇</a>
-                        <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP4}\" href=\"http://localhost:4000/download-video?id=${item.id}\" target=\"_blank\">🎬</a>
+                        <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP3}\" href=\"https://rhythm-26wa.onrender.com/download?id=${item.id}\" target=\"_blank\">⬇</a>
+                        <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP4}\" href=\"https://rhythm-26wa.onrender.com/download-video?id=${item.id}\" target=\"_blank\">🎬</a>
                         <button class=\"action-btn\" title=\"${i18n[currentLang].showLyrics}\" onclick=\"showLyrics('${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}')\">🎤</button>
                     </div>
                 `;
@@ -1772,7 +1772,7 @@
             playerArtist.textContent = decodeURIComponent(channel);
             playerArt.innerHTML = `<img src='${thumbnail}' alt='art' style='width:100%;height:100%;object-fit:cover;border-radius:8px;'>`;
             // Play from backend stream
-            audioPlayer.src = `http://localhost:4000/stream?id=${id}`;
+            audioPlayer.src = `https://rhythm-26wa.onrender.com/stream?id=${id}`;
             audioPlayer.load();
             audioPlayer.play().then(() => {
                 isPlaying = true;
@@ -1820,7 +1820,7 @@
         async function fetchRadioStations(country = 'Kenya') {
             radioStationsEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Loading radio stations...</div>';
             try {
-                const res = await fetch(`http://localhost:4000/radio?country=${encodeURIComponent(country)}`);
+                const res = await fetch(`https://rhythm-26wa.onrender.com/radio?country=${encodeURIComponent(country)}`);
                 const stations = await res.json();
                 if (!Array.isArray(stations) || stations.length === 0) {
                     radioStationsEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">No radio stations found.</div>';
@@ -1873,7 +1873,7 @@
         async function fetchArtists(country = 'Kenya') {
             artistListEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Loading artists...</div>';
             try {
-                const res = await fetch(`http://localhost:4000/artists?country=${encodeURIComponent(country)}`);
+                const res = await fetch(`https://rhythm-26wa.onrender.com/artists?country=${encodeURIComponent(country)}`);
                 const artists = await res.json();
                 if (!Array.isArray(artists) || artists.length === 0) {
                     artistListEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">No artists found.</div>';
@@ -1964,7 +1964,7 @@
             const loginError = document.getElementById('loginError');
             loginError.textContent = '';
             try {
-                const res = await fetch('http://localhost:4000/login', {
+                const res = await fetch('https://rhythm-26wa.onrender.com/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
@@ -1989,7 +1989,7 @@
             const signupError = document.getElementById('signupError');
             signupError.textContent = '';
             try {
-                const res = await fetch('http://localhost:4000/register', {
+                const res = await fetch('https://rhythm-26wa.onrender.com/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
@@ -2027,7 +2027,7 @@
                 const tracksEl = section.querySelector('.music-library');
                 tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Loading...</div>';
                 try {
-                    const res = await fetch(`http://localhost:4000/genre-tracks?genre=${encodeURIComponent(genre.name)}`);
+                    const res = await fetch(`https://rhythm-26wa.onrender.com/genre-tracks?genre=${encodeURIComponent(genre.name)}`);
                     const tracks = await res.json();
                     if (!Array.isArray(tracks) || tracks.length === 0) {
                         tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">No tracks found.</div>';
@@ -2078,7 +2078,7 @@
                 const tracksEl = section.querySelector('.music-library');
                 tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Loading...</div>';
                 try {
-                    const res = await fetch(`http://localhost:4000/playlist-tracks?playlist=${encodeURIComponent(playlist.name.toLowerCase())}`);
+                    const res = await fetch(`https://rhythm-26wa.onrender.com/playlist-tracks?playlist=${encodeURIComponent(playlist.name.toLowerCase())}`);
                     const tracks = await res.json();
                     if (!Array.isArray(tracks) || tracks.length === 0) {
                         tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">No tracks found.</div>';
@@ -2119,7 +2119,7 @@
         // Like/Unlike logic
         async function likeSong(title, artist, image) {
             if (!isLoggedIn()) return alert('Please sign in to like songs.');
-            await fetch('http://localhost:4000/liked', {
+            await fetch('https://rhythm-26wa.onrender.com/liked', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
                 body: JSON.stringify({ title, artist, image })
@@ -2128,7 +2128,7 @@
         }
         async function unlikeSong(title, artist) {
             if (!isLoggedIn()) return;
-            await fetch('http://localhost:4000/liked', {
+            await fetch('https://rhythm-26wa.onrender.com/liked', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
                 body: JSON.stringify({ title, artist })
@@ -2137,7 +2137,7 @@
         }
         async function getLikedSongs() {
             if (!isLoggedIn()) return [];
-            const res = await fetch('http://localhost:4000/liked', {
+            const res = await fetch('https://rhythm-26wa.onrender.com/liked', {
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
             return await res.json();
@@ -2221,7 +2221,7 @@
                 e.preventDefault();
                 const name = document.getElementById('newPlaylistName').value.trim();
                 if (!name) return;
-                await fetch('http://localhost:4000/playlists', {
+                await fetch('https://rhythm-26wa.onrender.com/playlists', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
                     body: JSON.stringify({ name })
@@ -2229,7 +2229,7 @@
                 renderUserPlaylists();
             };
             // Fetch and render playlists
-            const res = await fetch('http://localhost:4000/playlists', {
+            const res = await fetch('https://rhythm-26wa.onrender.com/playlists', {
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
             const playlists = await res.json();
@@ -2247,14 +2247,14 @@
             }
         }
         async function deletePlaylist(id) {
-            await fetch(`http://localhost:4000/playlists/${id}`, {
+            await fetch(`https://rhythm-26wa.onrender.com/playlists/${id}`, {
                 method: 'DELETE',
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
             renderUserPlaylists();
         }
         async function viewPlaylist(id, name) {
-            const res = await fetch(`http://localhost:4000/playlists/${id}/tracks`, {
+            const res = await fetch(`https://rhythm-26wa.onrender.com/playlists/${id}/tracks`, {
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
             const tracks = await res.json();
@@ -2292,7 +2292,7 @@
             });
         }
         async function removeFromPlaylist(id, title, artist) {
-            await fetch(`http://localhost:4000/playlists/${id}/tracks`, {
+            await fetch(`https://rhythm-26wa.onrender.com/playlists/${id}/tracks`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
                 body: JSON.stringify({ title, artist })
@@ -2304,7 +2304,7 @@
         async function addToPlaylistUI(title, artist, image) {
             if (!isLoggedIn()) return alert('Please sign in to use playlists.');
             // Fetch playlists
-            const res = await fetch('http://localhost:4000/playlists', {
+            const res = await fetch('https://rhythm-26wa.onrender.com/playlists', {
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
             const playlists = await res.json();
@@ -2326,7 +2326,7 @@
                 btn.style.marginBottom = '10px';
                 btn.textContent = pl.name;
                 btn.onclick = async () => {
-                    await fetch(`http://localhost:4000/playlists/${pl.id}/tracks`, {
+                    await fetch(`https://rhythm-26wa.onrender.com/playlists/${pl.id}/tracks`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
                         body: JSON.stringify({ title, artist, image })
@@ -2371,7 +2371,7 @@
         }
         async function renderProfilePlaylists() {
             const el = document.getElementById('profilePlaylists');
-            const res = await fetch('http://localhost:4000/playlists', {
+            const res = await fetch('https://rhythm-26wa.onrender.com/playlists', {
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
             const playlists = await res.json();
@@ -2461,7 +2461,7 @@
         }
         async function renderAdminUsers() {
             const el = document.getElementById('adminUsers');
-            const res = await fetch('http://localhost:4000/admin/users', {
+            const res = await fetch('https://rhythm-26wa.onrender.com/admin/users', {
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
             const users = await res.json();
@@ -2478,7 +2478,7 @@
             });
         }
         async function deleteUser(id) {
-            await fetch(`http://localhost:4000/admin/users/${id}`, {
+            await fetch(`https://rhythm-26wa.onrender.com/admin/users/${id}`, {
                 method: 'DELETE',
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
@@ -2486,7 +2486,7 @@
         }
         async function renderAdminPlaylists() {
             const el = document.getElementById('adminPlaylists');
-            const res = await fetch('http://localhost:4000/admin/playlists', {
+            const res = await fetch('https://rhythm-26wa.onrender.com/admin/playlists', {
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
             const playlists = await res.json();
@@ -2503,7 +2503,7 @@
             });
         }
         async function deleteAdminPlaylist(id) {
-            await fetch(`http://localhost:4000/admin/playlists/${id}`, {
+            await fetch(`https://rhythm-26wa.onrender.com/admin/playlists/${id}`, {
                 method: 'DELETE',
                 headers: { Authorization: 'Bearer ' + getJwtToken() }
             });
