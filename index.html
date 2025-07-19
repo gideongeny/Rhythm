@@ -1,0 +1,2533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhythm - Discover Your Musical Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1b3a 0%, #2d1b69 50%, #4a2c85 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            position: relative;
+            z-index: 1000;
+            background: rgba(26, 27, 58, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logo::before {
+            content: '▶';
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ec4899;
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-signin {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-signin:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #ec4899;
+        }
+
+        .btn-join {
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+
+        .btn-join:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            padding: 40px 50px 120px 50px;
+            min-height: calc(100vh - 180px);
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        /* Home Page */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 60px;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            font-weight: 800;
+        }
+
+        .hero .highlight {
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #ec4899;
+        }
+
+        .hero-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .vinyl-record {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at center, #1a1a1a 20%, #333 21%, #333 40%, #1a1a1a 41%);
+            border-radius: 50%;
+            position: relative;
+            animation: spin 10s linear infinite;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation-play-state: paused;
+        }
+
+        .vinyl-record::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .vinyl-record::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            background: #1a1a1a;
+            border-radius: 50%;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* File Browser */
+        .file-browser {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .file-input-section {
+            text-align: center;
+            padding: 40px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-section:hover {
+            border-color: #ec4899;
+            background: rgba(236, 72, 153, 0.05);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-input-label {
+            display: inline-block;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Music Library */
+        .music-library {
+            display: grid;
+            gap: 20px;
+        }
+
+        .track-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .track-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .track-item.playing {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.5);
+        }
+
+        .track-artwork {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .track-artist {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .track-duration {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .track-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            color: #ec4899;
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        /* Grid Layouts */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Player */
+        .player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 27, 58, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .now-playing {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 300px;
+        }
+
+        .album-art {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .track-info-player h4 {
+            margin-bottom: 5px;
+        }
+
+        .track-info-player p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .heart {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .heart:hover {
+            color: #ec4899;
+        }
+
+        .heart.liked {
+            color: #ec4899;
+        }
+
+        .player-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .control-btn:hover {
+            color: #ec4899;
+        }
+
+        .play-btn {
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .progress {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .time {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            min-width: 35px;
+        }
+
+        .volume-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 200px;
+            justify-content: flex-end;
+        }
+
+        .volume-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .volume-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            border-radius: 2px;
+            width: 70%;
+        }
+
+        /* Search */
+        .search-container {
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            border-color: #ec4899;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .page-section {
+                padding: 20px 20px 120px 20px;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .vinyl-record {
+                width: 200px;
+                height: 200px;
+            }
+
+            .player {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .now-playing, .volume-controls {
+                min-width: auto;
+            }
+
+            .progress-bar {
+                width: 100%;
+            }
+
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo" onclick="showPage('home')">Rhythm</div>
+        <ul class="nav-links">
+            <li><a href="#" data-page="home" class="nav-link active">Home</a></li>
+            <li><a href="#" data-page="discover" class="nav-link">Discover</a></li>
+            <li><a href="#" data-page="trending" class="nav-link">Trending</a></li>
+            <li><a href="#" data-page="genres" class="nav-link">Genres</a></li>
+            <li><a href="#" data-page="browse" class="nav-link">Browse</a></li>
+            <li><a href="#" data-page="playlists" class="nav-link">Playlists</a></li>
+            <li><a href="#" data-page="radio" class="nav-link">Radio</a></li>
+            <li><a href="#" data-page="artists" class="nav-link">Artists</a></li>
+            <li><a href="#" data-page="profile" class="nav-link" id="profileNavLink" style="display:none;">Profile</a></li>
+            <li><a href="#" data-page="admin" class="nav-link" id="adminNavLink" style="display:none;">Admin</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+            <a href="#" class="btn btn-signin" id="showLoginBtn">Sign In</a>
+            <a href="#" class="btn btn-join" id="showSignupBtn">Join Now</a>
+        </div>
+        <div id="userStatus" style="display:none;align-items:center;gap:10px;">
+            <span id="userWelcome" style="font-weight:600;"></span>
+            <a href="#" class="btn btn-signin" id="logoutBtn">Logout</a>
+        </div>
+        <!-- Language Selector -->
+        <div style="margin-left:20px;">
+            <select id="langSelect" class="search-box" style="max-width:120px;">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="sw">Kiswahili</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
+        <!-- End Language Selector -->
+    </nav>
+
+    <!-- Home Page -->
+    <section id="home" class="page-section active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Discover Your <span class="highlight">Musical</span> Journey</h1>
+                <p>Explore millions of tracks, create playlists, and connect with artists from around the world.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="document.getElementById('musicFiles').click()">
+                        <span>📁</span>
+                        Browse Your Music
+                    </button>
+                    <button class="btn-secondary" data-page="browse">Browse Library</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="vinyl-record"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Browse Page -->
+    <section id="browse" class="page-section">
+        <div class="page-header">
+            <h1>Browse Music</h1>
+            <p>Upload and browse your personal music collection or search online</p>
+        </div>
+        
+        <!-- Categories/Genres Filter -->
+        <div class="genres-filter-container" style="margin-bottom: 20px;">
+            <label for="genreSelect" style="margin-right: 10px; font-weight: 500;">Filter by Genre:</label>
+            <select id="genreSelect" class="search-box" style="max-width: 200px; display: inline-block;">
+                <option value="">All</option>
+                <option value="Pop">Pop</option>
+                <option value="Rock">Rock</option>
+                <option value="Hip Hop">Hip Hop</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Classical">Classical</option>
+                <option value="Electronic">Electronic</option>
+            </select>
+        </div>
+        <!-- End Categories/Genres Filter -->
+
+        <!-- Trending Music Section -->
+        <div class="trending-music-container" style="margin-bottom: 30px;">
+            <h2 style="margin-bottom: 15px;">Trending Music</h2>
+            <div id="trendingResults" class="music-library"></div>
+        </div>
+        <!-- End Trending Music Section -->
+
+        <!-- Recent Searches Section -->
+        <div class="recent-searches-container" style="margin-bottom: 20px;">
+            <h3 style="margin-bottom: 8px; font-size: 1.1rem;">Recent Searches</h3>
+            <div id="recentSearches" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+        </div>
+        <!-- End Recent Searches Section -->
+
+        <!-- Recently Played Section -->
+        <div class="recently-played-container" style="margin-bottom: 30px;">
+            <h3 style="margin-bottom: 8px; font-size: 1.1rem;">Recently Played</h3>
+            <div id="recentlyPlayed" class="music-library"></div>
+        </div>
+        <!-- End Recently Played Section -->
+
+        <!-- Tubidy MP3-like Search Bar and Results -->
+        <div class="tubidy-search-container" style="margin-bottom: 30px;">
+            <input type="text" id="tubidySearchBox" class="search-box" placeholder="Search online for music or videos...">
+            <button id="tubidySearchBtn" class="btn btn-primary" style="margin-left: 10px;">Search</button>
+        </div>
+        <div id="tubidyResults" class="music-library"></div>
+        <!-- End Tubidy MP3-like Search Bar and Results -->
+
+        <div class="file-browser">
+            <div class="file-input-section">
+                <h3>Add Music to Your Library</h3>
+                <p style="margin: 15px 0; color: rgba(255,255,255,0.7);">Select multiple music files from your computer</p>
+                <label for="musicFiles" class="file-input-label">Choose Music Files</label>
+                <input type="file" id="musicFiles" class="file-input" accept="audio/*" multiple>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search your music..." id="searchBox">
+        </div>
+
+        <div class="music-library" id="musicLibrary">
+            <!-- Music tracks will be populated here -->
+        </div>
+    </section>
+
+    <!-- Discover Page -->
+    <section id="discover" class="page-section">
+        <div class="page-header">
+            <h1>Discover New Music</h1>
+            <p>Find your next favorite song</p>
+        </div>
+        
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-icon">🎵</div>
+                <h3>New Releases</h3>
+                <p>Latest tracks from your favorite artists</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔥</div>
+                <h3>Hot Right Now</h3>
+                <p>Trending music everyone's talking about</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💎</div>
+                <h3>Hidden Gems</h3>
+                <p>Undiscovered tracks you'll love</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎯</div>
+                <h3>For You</h3>
+                <p>Personalized recommendations</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Page -->
+    <section id="trending" class="page-section">
+        <div class="page-header">
+            <h1>Trending Now</h1>
+            <p>The hottest tracks right now</p>
+        </div>
+        
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-icon">📈</div>
+                <h3>Top 100</h3>
+                <p>Most played tracks globally</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🌟</div>
+                <h3>Rising Stars</h3>
+                <p>Up and coming artists</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎪</div>
+                <h3>Viral Hits</h3>
+                <p>Songs taking social media by storm</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🌍</div>
+                <h3>Global Charts</h3>
+                <p>Popular music worldwide</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Genres Page -->
+    <section id="genres" class="page-section">
+        <div class="page-header">
+            <h1>Music Genres</h1>
+            <p>Explore music by genre</p>
+        </div>
+        <div id="genresContainer"></div>
+    </section>
+
+    <!-- Playlists Page -->
+    <section id="playlists" class="page-section">
+        <div class="page-header">
+            <h1>Your Playlists</h1>
+            <p>Manage your music collections and explore curated playlists</p>
+        </div>
+        <div id="userPlaylistsSection"></div>
+        <div id="likedSongsContainer" class="music-library"></div>
+        <div id="playlistsContainer"></div>
+    </section>
+
+    <!-- Radio Page -->
+    <section id="radio" class="page-section">
+        <div class="page-header">
+            <h1>Radio Stations</h1>
+            <p>Listen to curated radio stations from Kenya and around the world</p>
+        </div>
+        <div class="radio-country-filter" style="margin-bottom:20px;">
+            <label for="radioCountrySelect" style="margin-right:10px; font-weight:500;">Country:</label>
+            <select id="radioCountrySelect" class="search-box" style="max-width:200px; display:inline-block;">
+                <option value="Kenya">Kenya</option>
+                <option value="">Worldwide</option>
+            </select>
+        </div>
+        <div id="radioStations" class="music-library"></div>
+    </section>
+
+    <!-- Artists Page -->
+    <section id="artists" class="page-section">
+        <div class="page-header">
+            <h1>Artists</h1>
+            <p>Discover and follow your favorite artists from Kenya and around the world</p>
+        </div>
+        <div class="artist-country-filter" style="margin-bottom:20px;">
+            <label for="artistCountrySelect" style="margin-right:10px; font-weight:500;">Country:</label>
+            <select id="artistCountrySelect" class="search-box" style="max-width:200px; display:inline-block;">
+                <option value="Kenya">Kenya</option>
+                <option value="">Worldwide</option>
+            </select>
+        </div>
+        <div id="artistList" class="music-library"></div>
+    </section>
+
+    <!-- Music Player -->
+    <div class="player">
+        <div class="now-playing">
+            <div class="album-art" id="playerArt">🎵</div>
+            <div class="track-info-player">
+                <h4 id="playerTitle">Select a song to play</h4>
+                <p id="playerArtist">Choose from your library</p>
+            </div>
+            <div class="heart" id="playerHeart">♡</div>
+        </div>
+
+        <div class="player-controls">
+            <div class="control-buttons">
+                <button class="control-btn" id="prevBtn">⏮</button>
+                <button class="control-btn play-btn" id="playBtn">▶</button>
+                <button class="control-btn" id="nextBtn">⏭</button>
+            </div>
+            <div class="progress-bar">
+                <span class="time" id="currentTime">0:00</span>
+                <div class="progress" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="time" id="totalTime">0:00</span>
+            </div>
+        </div>
+
+        <div class="volume-controls">
+            <button class="volume-btn" id="muteBtn">🔊</button>
+            <div class="volume-slider" id="volumeSlider">
+                <div class="volume-fill" id="volumeFill"></div>
+            </div>
+            <button class="volume-btn" id="shuffleBtn">🔀</button>
+            <button class="volume-btn" id="menuBtn">☰</button>
+        </div>
+    </div>
+    <div id="lyricsBox" style="background:rgba(26,27,58,0.95);color:white;padding:20px 50px;max-width:700px;margin:20px auto 0 auto;border-radius:15px;display:none;"></div>
+
+    <!-- Hidden Audio Element -->
+    <audio id="audioPlayer" preload="metadata"></audio>
+
+    <!-- Login Modal -->
+    <div id="loginModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;">
+        <div style="background:#222;padding:30px 40px;border-radius:15px;max-width:350px;width:100%;color:white;">
+            <h2 style="margin-bottom:20px;">Sign In</h2>
+            <form id="loginForm">
+                <input type="text" id="loginUsername" class="search-box" placeholder="Username" required style="margin-bottom:15px;width:100%;">
+                <input type="password" id="loginPassword" class="search-box" placeholder="Password" required style="margin-bottom:15px;width:100%;">
+                <button type="submit" class="btn btn-primary" style="width:100%;margin-bottom:10px;">Sign In</button>
+                <div id="loginError" style="color:#ec4899;text-align:center;"></div>
+            </form>
+            <div style="text-align:center;margin-top:10px;">
+                <a href="#" id="toSignup" style="color:#8b5cf6;">Don't have an account? Join Now</a>
+            </div>
+        </div>
+    </div>
+    <!-- Signup Modal -->
+    <div id="signupModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;">
+        <div style="background:#222;padding:30px 40px;border-radius:15px;max-width:350px;width:100%;color:white;">
+            <h2 style="margin-bottom:20px;">Join Now</h2>
+            <form id="signupForm">
+                <input type="text" id="signupUsername" class="search-box" placeholder="Username" required style="margin-bottom:15px;width:100%;">
+                <input type="password" id="signupPassword" class="search-box" placeholder="Password" required style="margin-bottom:15px;width:100%;">
+                <button type="submit" class="btn btn-primary" style="width:100%;margin-bottom:10px;">Join</button>
+                <div id="signupError" style="color:#ec4899;text-align:center;"></div>
+            </form>
+            <div style="text-align:center;margin-top:10px;">
+                <a href="#" id="toLogin" style="color:#8b5cf6;">Already have an account? Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <section id="profile" class="page-section">
+        <div class="page-header">
+            <h1>Profile</h1>
+            <p>View your account, playlists, liked songs, and history</p>
+        </div>
+        <div id="profileContent"></div>
+    </section>
+
+    <!-- Admin Page -->
+    <section id="admin" class="page-section">
+        <div class="page-header">
+            <h1>Admin Panel</h1>
+            <p>Manage users and playlists</p>
+        </div>
+        <div id="adminContent"></div>
+    </section>
+
+    <script>
+        // Global variables
+        let currentTrack = null;
+        let musicLibrary = [];
+        let isPlaying = false;
+        let isShuffled = false;
+        let currentTrackIndex = 0;
+        let likedTracks = new Set();
+
+        // DOM elements
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalTimeEl = document.getElementById('totalTime');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeFill = document.getElementById('volumeFill');
+        const muteBtn = document.getElementById('muteBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const playerTitle = document.getElementById('playerTitle');
+        const playerArtist = document.getElementById('playerArtist');
+        const playerArt = document.getElementById('playerArt');
+        const playerHeart = document.getElementById('playerHeart');
+        const vinylRecord = document.querySelector('.vinyl-record');
+        const musicFilesInput = document.getElementById('musicFiles');
+        const musicLibraryEl = document.getElementById('musicLibrary');
+        const searchBox = document.getElementById('searchBox');
+        const lyricsBox = document.getElementById('lyricsBox');
+
+        // Multi-language (i18n) support
+        const i18n = {
+            en: {
+                browseMusic: "Browse Music",
+                uploadBrowse: "Upload and browse your personal music collection or search online",
+                trendingMusic: "Trending Music",
+                recentSearches: "Recent Searches",
+                recentlyPlayed: "Recently Played",
+                filterByGenre: "Filter by Genre:",
+                searchPlaceholder: "Search online for music or videos...",
+                searchBtn: "Search",
+                play: "Play",
+                downloadMP3: "Download MP3",
+                downloadMP4: "Download Video (MP4)",
+                lyrics: "Lyrics",
+                showLyrics: "Show Lyrics",
+                noResults: "No results found.",
+                noTrending: "No trending music found.",
+                noRecentlyPlayed: "No recently played tracks.",
+                loadingTrending: "Loading trending music...",
+                loadingLyrics: "Loading lyrics...",
+                lyricsNotFound: "Lyrics not found.",
+                errorLyrics: "Error fetching lyrics.",
+                errorTrending: "Error loading trending music.",
+                errorResults: "Error fetching results.",
+                signIn: "Sign In",
+                joinNow: "Join Now",
+                logout: "Logout",
+                welcome: "Welcome, "
+            },
+            es: {
+                browseMusic: "Explorar Música",
+                uploadBrowse: "Sube y explora tu colección personal o busca en línea",
+                trendingMusic: "Música de Tendencia",
+                recentSearches: "Búsquedas Recientes",
+                recentlyPlayed: "Reproducido Recientemente",
+                filterByGenre: "Filtrar por Género:",
+                searchPlaceholder: "Buscar música o videos en línea...",
+                searchBtn: "Buscar",
+                play: "Reproducir",
+                downloadMP3: "Descargar MP3",
+                downloadMP4: "Descargar Video (MP4)",
+                lyrics: "Letras",
+                showLyrics: "Mostrar Letras",
+                noResults: "No se encontraron resultados.",
+                noTrending: "No se encontró música de tendencia.",
+                noRecentlyPlayed: "No hay pistas reproducidas recientemente.",
+                loadingTrending: "Cargando música de tendencia...",
+                loadingLyrics: "Cargando letras...",
+                lyricsNotFound: "Letras no encontradas.",
+                errorLyrics: "Error al obtener letras.",
+                errorTrending: "Error al cargar música de tendencia.",
+                errorResults: "Error al buscar resultados.",
+                signIn: "Iniciar Sesión",
+                joinNow: "Regístrate",
+                logout: "Cerrar Sesión",
+                welcome: "Bienvenido, "
+            },
+            sw: {
+                browseMusic: "Vinjari Muziki",
+                uploadBrowse: "Pakia na vinjari mkusanyiko wako wa muziki au tafuta mtandaoni",
+                trendingMusic: "Muziki Maarufu",
+                recentSearches: "Utafutaji wa Hivi Karibuni",
+                recentlyPlayed: "Uliochezwa Hivi Karibuni",
+                filterByGenre: "Chuja kwa Aina:",
+                searchPlaceholder: "Tafuta muziki au video mtandaoni...",
+                searchBtn: "Tafuta",
+                play: "Cheza",
+                downloadMP3: "Pakua MP3",
+                downloadMP4: "Pakua Video (MP4)",
+                lyrics: "Maneno ya Wimbo",
+                showLyrics: "Onyesha Maneno ya Wimbo",
+                noResults: "Hakuna matokeo yaliyopatikana.",
+                noTrending: "Hakuna muziki maarufu uliopatikana.",
+                noRecentlyPlayed: "Hakuna nyimbo zilizochezwa hivi karibuni.",
+                loadingTrending: "Inapakia muziki maarufu...",
+                loadingLyrics: "Inapakia maneno ya wimbo...",
+                lyricsNotFound: "Maneno ya wimbo hayajapatikana.",
+                errorLyrics: "Hitilafu katika kupata maneno ya wimbo.",
+                errorTrending: "Hitilafu katika kupakia muziki maarufu.",
+                errorResults: "Hitilafu katika kutafuta matokeo.",
+                signIn: "Ingia",
+                joinNow: "Jiunge Sasa",
+                logout: "Toka",
+                welcome: "Karibu, "
+            },
+            fr: {
+                browseMusic: "Explorer la Musique",
+                uploadBrowse: "Téléchargez et explorez votre collection personnelle ou recherchez en ligne",
+                trendingMusic: "Musique Tendance",
+                recentSearches: "Recherches Récentes",
+                recentlyPlayed: "Récemment Écouté",
+                filterByGenre: "Filtrer par Genre:",
+                searchPlaceholder: "Recherchez de la musique ou des vidéos en ligne...",
+                searchBtn: "Rechercher",
+                play: "Jouer",
+                downloadMP3: "Télécharger MP3",
+                downloadMP4: "Télécharger Vidéo (MP4)",
+                lyrics: "Paroles",
+                showLyrics: "Afficher les Paroles",
+                noResults: "Aucun résultat trouvé.",
+                noTrending: "Aucune musique tendance trouvée.",
+                noRecentlyPlayed: "Aucune piste récemment écoutée.",
+                loadingTrending: "Chargement de la musique tendance...",
+                loadingLyrics: "Chargement des paroles...",
+                lyricsNotFound: "Paroles non trouvées.",
+                errorLyrics: "Erreur lors de la récupération des paroles.",
+                errorTrending: "Erreur lors du chargement de la musique tendance.",
+                errorResults: "Erreur lors de la recherche des résultats.",
+                signIn: "Se Connecter",
+                joinNow: "S'inscrire",
+                logout: "Se Déconnecter",
+                welcome: "Bienvenue, "
+            }
+        };
+        let currentLang = localStorage.getItem('lang') || 'en';
+        const langSelect = document.getElementById('langSelect');
+        langSelect.value = currentLang;
+        langSelect.addEventListener('change', () => {
+            currentLang = langSelect.value;
+            localStorage.setItem('lang', currentLang);
+            updateI18n();
+        });
+        function updateI18n() {
+            // Update static text
+            document.querySelector('.page-header h1').textContent = i18n[currentLang].browseMusic;
+            document.querySelector('.page-header p').textContent = i18n[currentLang].uploadBrowse;
+            document.querySelector('.trending-music-container h2').textContent = i18n[currentLang].trendingMusic;
+            document.querySelector('.recent-searches-container h3').textContent = i18n[currentLang].recentSearches;
+            document.querySelector('.recently-played-container h3').textContent = i18n[currentLang].recentlyPlayed;
+            document.querySelector('.genres-filter-container label').textContent = i18n[currentLang].filterByGenre;
+            tubidySearchBox.placeholder = i18n[currentLang].searchPlaceholder;
+            tubidySearchBtn.textContent = i18n[currentLang].searchBtn;
+            showLoginBtn.textContent = i18n[currentLang].signIn;
+            showSignupBtn.textContent = i18n[currentLang].joinNow;
+            logoutBtn.textContent = i18n[currentLang].logout;
+            // Update dynamic text (trending, search, etc.) on next render
+            fetchTrendingMusic();
+            renderRecentSearches();
+            renderRecentlyPlayed();
+        }
+        // On load, apply language
+        updateI18n();
+
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+
+        // Add event listeners for navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+
+        // Add event listeners for hero buttons
+        document.querySelectorAll('.btn-secondary').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = btn.getAttribute('data-page');
+                if (pageId) {
+                    showPage(pageId);
+                }
+            });
+        });
+
+        // File handling
+        musicFilesInput.addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                if (file.type.startsWith('audio/')) {
+                    addToLibrary(file);
+                }
+            });
+            renderLibrary();
+            showPage('browse');
+        });
+
+        function addToLibrary(file) {
+            const track = {
+                id: Date.now() + Math.random(),
+                file: file,
+                title: file.name.replace(/\.[^/.]+$/, ""), // Remove extension
+                artist: "Unknown Artist",
+                duration: "0:00",
+                url: URL.createObjectURL(file)
+            };
+            
+            musicLibrary.push(track);
+            
+            // Get duration and metadata
+            const tempAudio = new Audio(track.url);
+            tempAudio.addEventListener('loadedmetadata', () => {
+                track.duration = formatTime(tempAudio.duration);
+                updateTrackInLibrary(track);
+            });
+        }
+
+        function updateTrackInLibrary(track) {
+            const trackElement = document.querySelector(`[data-track-id="${track.id}"]`);
+            if (trackElement) {
+                const durationEl = trackElement.querySelector('.track-duration');
+                if (durationEl) {
+                    durationEl.textContent = track.duration;
+                }
+            }
+        }
+
+        function renderLibrary() {
+            musicLibraryEl.innerHTML = '';
+            
+            if (musicLibrary.length === 0) {
+                musicLibraryEl.innerHTML = `
+                    <div style="text-align: center; padding: 60px; color: rgba(255,255,255,0.5);">
+                        <h3>No music files loaded</h3>
+                        <p>Upload some music files to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            musicLibrary.forEach((track, index) => {
+                const trackEl = document.createElement('div');
+                trackEl.className = 'track-item';
+                trackEl.setAttribute('data-track-id', track.id);
+                trackEl.innerHTML = `
+                    <div class="track-artwork">${track.title.charAt(0).toUpperCase()}</div>
+                    <div class="track-info">
+                        <div class="track-title">${track.title}</div>
+                        <div class="track-artist">${track.artist}</div>
+                    </div>
+                    <div class="track-duration">${track.duration}</div>
+                    <div class="track-actions">
+                        <button class="action-btn heart-btn" onclick="toggleLike('${track.id}')">
+                            ${likedTracks.has(track.id) ? '♥' : '♡'}
+                        </button>
+                        <button class="action-btn" onclick="playTrack(${index})">▶</button>
+                    </div>
+                `;
+                
+                trackEl.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('action-btn')) {
+                        playTrack(index);
+                    }
+                });
+                
+                musicLibraryEl.appendChild(trackEl);
+            });
+        }
+
+        // Music player functionality
+        function playTrack(index) {
+            if (index < 0 || index >= musicLibrary.length) return;
+            
+            currentTrackIndex = index;
+            currentTrack = musicLibrary[index];
+            
+            // Update UI
+            updatePlayerUI();
+            updateLibraryUI();
+            
+            // Load and play
+            audioPlayer.src = currentTrack.url;
+            audioPlayer.load();
+            audioPlayer.play().then(() => {
+                isPlaying = true;
+                playBtn.innerHTML = '⏸';
+                vinylRecord.style.animationPlayState = 'running';
+            }).catch(error => {
+                console.error('Error playing audio:', error);
+            });
+        }
+
+        function updatePlayerUI() {
+            if (!currentTrack) return;
+            
+            playerTitle.textContent = currentTrack.title;
+            playerArtist.textContent = currentTrack.artist;
+            playerArt.textContent = currentTrack.title.charAt(0).toUpperCase();
+            playerHeart.innerHTML = likedTracks.has(currentTrack.id) ? '♥' : '♡';
+            playerHeart.classList.toggle('liked', likedTracks.has(currentTrack.id));
+        }
+
+        function updateLibraryUI() {
+            document.querySelectorAll('.track-item').forEach(item => {
+                item.classList.remove('playing');
+            });
+            
+            if (currentTrack) {
+                const currentItem = document.querySelector(`[data-track-id="${currentTrack.id}"]`);
+                if (currentItem) {
+                    currentItem.classList.add('playing');
+                }
+            }
+        }
+
+        function togglePlayPause() {
+            if (!currentTrack) {
+                if (musicLibrary.length > 0) {
+                    playTrack(0);
+                }
+                return;
+            }
+            
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                playBtn.innerHTML = '▶';
+                vinylRecord.style.animationPlayState = 'paused';
+            } else {
+                audioPlayer.play().then(() => {
+                    isPlaying = true;
+                    playBtn.innerHTML = '⏸';
+                    vinylRecord.style.animationPlayState = 'running';
+                });
+            }
+        }
+
+        function previousTrack() {
+            if (musicLibrary.length === 0) return;
+            
+            let newIndex;
+            if (isShuffled) {
+                newIndex = Math.floor(Math.random() * musicLibrary.length);
+            } else {
+                newIndex = currentTrackIndex > 0 ? currentTrackIndex - 1 : musicLibrary.length - 1;
+            }
+            playTrack(newIndex);
+        }
+
+        function nextTrack() {
+            if (musicLibrary.length === 0) return;
+            
+            let newIndex;
+            if (isShuffled) {
+                newIndex = Math.floor(Math.random() * musicLibrary.length);
+            } else {
+                newIndex = currentTrackIndex < musicLibrary.length - 1 ? currentTrackIndex + 1 : 0;
+            }
+            playTrack(newIndex);
+        }
+
+        function toggleShuffle() {
+            isShuffled = !isShuffled;
+            shuffleBtn.style.color = isShuffled ? '#ec4899' : 'rgba(255, 255, 255, 0.6)';
+        }
+
+        function toggleLike(trackId) {
+            if (likedTracks.has(trackId)) {
+                likedTracks.delete(trackId);
+            } else {
+                likedTracks.add(trackId);
+            }
+            
+            // Update UI
+            const heartBtn = document.querySelector(`[data-track-id="${trackId}"] .heart-btn`);
+            if (heartBtn) {
+                heartBtn.innerHTML = likedTracks.has(trackId) ? '♥' : '♡';
+            }
+            
+            // Update player heart if this is current track
+            if (currentTrack && currentTrack.id === trackId) {
+                playerHeart.innerHTML = likedTracks.has(trackId) ? '♥' : '♡';
+                playerHeart.classList.toggle('liked', likedTracks.has(trackId));
+            }
+            
+            renderLibrary();
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateProgress() {
+            if (!audioPlayer.duration) return;
+            
+            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressFill.style.width = progress + '%';
+            currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+            totalTimeEl.textContent = formatTime(audioPlayer.duration);
+        }
+
+        function setProgress(e) {
+            if (!audioPlayer.duration) return;
+            
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            audioPlayer.currentTime = percentage * audioPlayer.duration;
+        }
+
+        function setVolume(e) {
+            const rect = volumeSlider.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(1, clickX / rect.width));
+            
+            audioPlayer.volume = percentage;
+            volumeFill.style.width = (percentage * 100) + '%';
+            
+            // Update mute button
+            if (percentage === 0) {
+                muteBtn.innerHTML = '🔇';
+            } else if (percentage < 0.5) {
+                muteBtn.innerHTML = '🔉';
+            } else {
+                muteBtn.innerHTML = '🔊';
+            }
+        }
+
+        function toggleMute() {
+            if (audioPlayer.volume > 0) {
+                audioPlayer.volume = 0;
+                volumeFill.style.width = '0%';
+                muteBtn.innerHTML = '🔇';
+            } else {
+                audioPlayer.volume = 0.7;
+                volumeFill.style.width = '70%';
+                muteBtn.innerHTML = '🔊';
+            }
+        }
+
+        // Search functionality
+        searchBox.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const tracks = document.querySelectorAll('.track-item');
+            
+            tracks.forEach(track => {
+                const title = track.querySelector('.track-title').textContent.toLowerCase();
+                const artist = track.querySelector('.track-artist').textContent.toLowerCase();
+                
+                if (title.includes(query) || artist.includes(query)) {
+                    track.style.display = 'flex';
+                } else {
+                    track.style.display = 'none';
+                }
+            });
+        });
+
+        // Event listeners
+        playBtn.addEventListener('click', togglePlayPause);
+        prevBtn.addEventListener('click', previousTrack);
+        nextBtn.addEventListener('click', nextTrack);
+        shuffleBtn.addEventListener('click', toggleShuffle);
+        progressBar.addEventListener('click', setProgress);
+        volumeSlider.addEventListener('click', setVolume);
+        muteBtn.addEventListener('click', toggleMute);
+
+        playerHeart.addEventListener('click', () => {
+            if (currentTrack) {
+                toggleLike(currentTrack.id);
+            }
+        });
+
+        // Audio event listeners
+        audioPlayer.addEventListener('timeupdate', updateProgress);
+        audioPlayer.addEventListener('ended', nextTrack);
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            totalTimeEl.textContent = formatTime(audioPlayer.duration);
+        });
+
+        // Initialize volume
+        audioPlayer.volume = 0.7;
+        volumeFill.style.width = '70%';
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return; // Don't interfere with input fields
+            
+            switch(e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    togglePlayPause();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    previousTrack();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    nextTrack();
+                    break;
+                case 'KeyS':
+                    e.preventDefault();
+                    toggleShuffle();
+                    break;
+            }
+        });
+
+        // Add drag and drop functionality
+        const dropZone = document.querySelector('.file-input-section');
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#ec4899';
+            dropZone.style.background = 'rgba(236, 72, 153, 0.1)';
+        });
+        
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            dropZone.style.background = 'transparent';
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            dropZone.style.background = 'transparent';
+            
+            const files = Array.from(e.dataTransfer.files);
+            files.forEach(file => {
+                if (file.type.startsWith('audio/')) {
+                    addToLibrary(file);
+                }
+            });
+            renderLibrary();
+            showPage('browse');
+        });
+
+        // Tubidy MP3-like Search Integration
+        const tubidySearchBox = document.getElementById('tubidySearchBox');
+        const tubidySearchBtn = document.getElementById('tubidySearchBtn');
+        const tubidyResults = document.getElementById('tubidyResults');
+
+        async function tubidySearch(query) {
+            tubidyResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].loadingTrending}</div>`;
+            try {
+                let searchQuery = query;
+                if (selectedGenre) searchQuery += ' ' + selectedGenre;
+                const res = await fetch(`http://localhost:4000/search?q=${encodeURIComponent(searchQuery)}`);
+                const results = await res.json();
+                if (!Array.isArray(results) || results.length === 0) {
+                    tubidyResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].noResults}</div>`;
+                    return;
+                }
+                tubidyResults.innerHTML = '';
+                results.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'track-item';
+                    el.innerHTML = `
+                        <img src=\"${item.thumbnail}\" alt=\"thumb\" style=\"width:60px;height:60px;border-radius:8px;object-fit:cover;\">
+                        <div class=\"track-info\">
+                            <div class=\"track-title\">${item.title}</div>
+                            <div class=\"track-artist\">${item.channel}</div>
+                        </div>
+                        <div class=\"track-actions\">
+                            <button class=\"action-btn\" title=\"${i18n[currentLang].play}\" onclick=\"tubidyPlay('${item.id}', '${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}', '${item.thumbnail}')\">▶</button>
+                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP3}\" href=\"http://localhost:4000/download?id=${item.id}\" target=\"_blank\">⬇</a>
+                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP4}\" href=\"http://localhost:4000/download-video?id=${item.id}\" target=\"_blank\">🎬</a>
+                            <button class=\"action-btn\" title=\"${i18n[currentLang].showLyrics}\" onclick=\"showLyrics('${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}')\">🎤</button>
+                        </div>
+                    `;
+                    tubidyResults.appendChild(el);
+                });
+            } catch (err) {
+                tubidyResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].errorResults}</div>`;
+            }
+        }
+
+        tubidySearchBtn.addEventListener('click', () => {
+            const q = tubidySearchBox.value.trim();
+            if (q) tubidySearch(q);
+        });
+        tubidySearchBox.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const q = tubidySearchBox.value.trim();
+                if (q) tubidySearch(q);
+            }
+        });
+
+        // Tubidy Play function (global for inline onclick)
+        window.tubidyPlay = function(id, title, channel, thumbnail) {
+            // Set up player UI
+            playerTitle.textContent = decodeURIComponent(title);
+            playerArtist.textContent = decodeURIComponent(channel);
+            playerArt.innerHTML = `<img src='${thumbnail}' alt='art' style='width:100%;height:100%;object-fit:cover;border-radius:8px;'>`;
+            // Play from backend stream
+            audioPlayer.src = `http://localhost:4000/stream?id=${id}`;
+            audioPlayer.load();
+            audioPlayer.play().then(() => {
+                isPlaying = true;
+                playBtn.innerHTML = '⏸';
+                vinylRecord.style.animationPlayState = 'running';
+            }).catch(error => {
+                console.error('Error playing audio:', error);
+            });
+            // Add to recently played
+            addRecentlyPlayed({ id, title: decodeURIComponent(title), channel: decodeURIComponent(channel), thumbnail });
+        }
+
+        // Trending Music Integration
+        const trendingResults = document.getElementById('trendingResults');
+        async function fetchTrendingMusic() {
+            trendingResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].loadingTrending}</div>`;
+            try {
+                let url = 'http://localhost:4000/trending';
+                // For genre filtering, we can only filter client-side unless backend supports it
+                const res = await fetch(url);
+                let results = await res.json();
+                if (selectedGenre) {
+                    results = results.filter(item => item.title.toLowerCase().includes(selectedGenre.toLowerCase()) || item.channel.toLowerCase().includes(selectedGenre.toLowerCase()));
+                }
+                if (!Array.isArray(results) || results.length === 0) {
+                    trendingResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].noTrending}</div>`;
+                    return;
+                }
+                trendingResults.innerHTML = '';
+                results.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'track-item';
+                    el.innerHTML = `
+                        <img src=\"${item.thumbnail}\" alt=\"thumb\" style=\"width:60px;height:60px;border-radius:8px;object-fit:cover;\">
+                        <div class=\"track-info\">
+                            <div class=\"track-title\">${item.title}</div>
+                            <div class=\"track-artist\">${item.channel}</div>
+                        </div>
+                        <div class=\"track-actions\">
+                            <button class=\"action-btn\" title=\"${i18n[currentLang].play}\" onclick=\"tubidyPlay('${item.id}', '${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}', '${item.thumbnail}')\">▶</button>
+                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP3}\" href=\"http://localhost:4000/download?id=${item.id}\" target=\"_blank\">⬇</a>
+                            <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP4}\" href=\"http://localhost:4000/download-video?id=${item.id}\" target=\"_blank\">🎬</a>
+                            <button class=\"action-btn\" title=\"${i18n[currentLang].showLyrics}\" onclick=\"showLyrics('${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}')\">🎤</button>
+                        </div>
+                    `;
+                    trendingResults.appendChild(el);
+                });
+            } catch (err) {
+                trendingResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].errorTrending}</div>`;
+            }
+        }
+        fetchTrendingMusic();
+
+        // Recent Searches Integration
+        const recentSearchesEl = document.getElementById('recentSearches');
+        function getRecentSearches() {
+            return JSON.parse(localStorage.getItem('recentSearches') || '[]');
+        }
+        function addRecentSearch(query) {
+            let searches = getRecentSearches();
+            searches = searches.filter(q => q !== query);
+            searches.unshift(query);
+            if (searches.length > 8) searches = searches.slice(0, 8);
+            localStorage.setItem('recentSearches', JSON.stringify(searches));
+            renderRecentSearches();
+        }
+        function renderRecentSearches() {
+            const searches = getRecentSearches();
+            recentSearchesEl.innerHTML = '';
+            searches.forEach(q => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-secondary';
+                btn.style.fontSize = '0.9rem';
+                btn.textContent = q;
+                btn.onclick = () => {
+                    tubidySearchBox.value = q;
+                    tubidySearch(q);
+                };
+                recentSearchesEl.appendChild(btn);
+            });
+        }
+        renderRecentSearches();
+
+        // Recently Played Integration
+        const recentlyPlayedEl = document.getElementById('recentlyPlayed');
+        function getRecentlyPlayed() {
+            return JSON.parse(localStorage.getItem('recentlyPlayed') || '[]');
+        }
+        function addRecentlyPlayed(track) {
+            let played = getRecentlyPlayed();
+            played = played.filter(t => t.id !== track.id);
+            played.unshift(track);
+            if (played.length > 8) played = played.slice(0, 8);
+            localStorage.setItem('recentlyPlayed', JSON.stringify(played));
+            renderRecentlyPlayed();
+        }
+        function renderRecentlyPlayed() {
+            const played = getRecentlyPlayed();
+            recentlyPlayedEl.innerHTML = '';
+            if (played.length === 0) {
+                recentlyPlayedEl.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].noRecentlyPlayed}</div>`;
+                return;
+            }
+            played.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'track-item';
+                el.innerHTML = `
+                    <img src=\"${item.thumbnail}\" alt=\"thumb\" style=\"width:60px;height:60px;border-radius:8px;object-fit:cover;\">
+                    <div class=\"track-info\">
+                        <div class=\"track-title\">${item.title}</div>
+                        <div class=\"track-artist\">${item.channel}</div>
+                    </div>
+                    <div class=\"track-actions\">
+                        <button class=\"action-btn\" title=\"${i18n[currentLang].play}\" onclick=\"tubidyPlay('${item.id}', '${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}', '${item.thumbnail}')\">▶</button>
+                        <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP3}\" href=\"http://localhost:4000/download?id=${item.id}\" target=\"_blank\">⬇</a>
+                        <a class=\"action-btn\" title=\"${i18n[currentLang].downloadMP4}\" href=\"http://localhost:4000/download-video?id=${item.id}\" target=\"_blank\">🎬</a>
+                        <button class=\"action-btn\" title=\"${i18n[currentLang].showLyrics}\" onclick=\"showLyrics('${encodeURIComponent(item.title)}', '${encodeURIComponent(item.channel)}')\">🎤</button>
+                    </div>
+                `;
+                recentlyPlayedEl.appendChild(el);
+            });
+        }
+        renderRecentlyPlayed();
+
+        // Update addRecentSearch on search
+        tubidySearchBtn.addEventListener('click', () => {
+            const q = tubidySearchBox.value.trim();
+            if (q) addRecentSearch(q);
+        });
+        tubidySearchBox.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const q = tubidySearchBox.value.trim();
+                if (q) addRecentSearch(q);
+            }
+        });
+
+        // Update addRecentlyPlayed on play
+        window.tubidyPlay = function(id, title, channel, thumbnail) {
+            // Set up player UI
+            playerTitle.textContent = decodeURIComponent(title);
+            playerArtist.textContent = decodeURIComponent(channel);
+            playerArt.innerHTML = `<img src='${thumbnail}' alt='art' style='width:100%;height:100%;object-fit:cover;border-radius:8px;'>`;
+            // Play from backend stream
+            audioPlayer.src = `http://localhost:4000/stream?id=${id}`;
+            audioPlayer.load();
+            audioPlayer.play().then(() => {
+                isPlaying = true;
+                playBtn.innerHTML = '⏸';
+                vinylRecord.style.animationPlayState = 'running';
+            }).catch(error => {
+                console.error('Error playing audio:', error);
+            });
+            // Add to recently played
+            addRecentlyPlayed({ id, title: decodeURIComponent(title), channel: decodeURIComponent(channel), thumbnail });
+        }
+
+        // Genres Filter Integration
+        const genreSelect = document.getElementById('genreSelect');
+        let selectedGenre = '';
+        genreSelect.addEventListener('change', () => {
+            selectedGenre = genreSelect.value;
+            fetchTrendingMusic();
+            // If a search is active, re-run it with the genre
+            const q = tubidySearchBox.value.trim();
+            if (q) tubidySearch(q);
+        });
+
+        // Lyrics Integration
+        async function showLyrics(title, artist) {
+            lyricsBox.style.display = 'block';
+            lyricsBox.innerHTML = `<div style=\"text-align:center;color:rgba(255,255,255,0.7);\">${i18n[currentLang].loadingLyrics}</div>`;
+            try {
+                // Use lyrics.ovh API (free, no auth)
+                const res = await fetch(`https://api.lyrics.ovh/v1/${decodeURIComponent(artist)}/${decodeURIComponent(title)}`);
+                const data = await res.json();
+                if (data.lyrics) {
+                    lyricsBox.innerHTML = `<h3 style='margin-bottom:10px;'>${i18n[currentLang].lyrics} for ${decodeURIComponent(title)} by ${decodeURIComponent(artist)}</h3><pre style='white-space:pre-wrap;font-size:1rem;'>${data.lyrics}</pre>`;
+                } else {
+                    lyricsBox.innerHTML = `<div style='text-align:center;color:rgba(255,255,255,0.7);'>${i18n[currentLang].lyricsNotFound}</div>`;
+                }
+            } catch (err) {
+                lyricsBox.innerHTML = `<div style='text-align:center;color:rgba(255,255,255,0.7);'>${i18n[currentLang].errorLyrics}</div>`;
+            }
+        }
+
+        // Radio Stations Integration
+        const radioStationsEl = document.getElementById('radioStations');
+        const radioCountrySelect = document.getElementById('radioCountrySelect');
+        async function fetchRadioStations(country = 'Kenya') {
+            radioStationsEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Loading radio stations...</div>';
+            try {
+                const res = await fetch(`http://localhost:4000/radio?country=${encodeURIComponent(country)}`);
+                const stations = await res.json();
+                if (!Array.isArray(stations) || stations.length === 0) {
+                    radioStationsEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">No radio stations found.</div>';
+                    return;
+                }
+                radioStationsEl.innerHTML = '';
+                stations.forEach(station => {
+                    const el = document.createElement('div');
+                    el.className = 'track-item';
+                    el.innerHTML = `
+                        <img src="${station.favicon || 'https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg'}" alt="logo" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">
+                        <div class="track-info">
+                            <div class="track-title">${station.name}</div>
+                            <div class="track-artist">${station.country}</div>
+                        </div>
+                        <div class="track-actions">
+                            <button class="action-btn" title="Play" onclick="playRadioStation(${JSON.stringify(station.url)}, ${JSON.stringify(station.name)}, ${JSON.stringify(station.country)}, ${JSON.stringify(station.favicon || '')})">▶</button>
+                        </div>
+                    `;
+                    radioStationsEl.appendChild(el);
+                });
+            } catch (err) {
+                radioStationsEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Error loading radio stations.</div>';
+            }
+        }
+        radioCountrySelect.addEventListener('change', () => {
+            fetchRadioStations(radioCountrySelect.value);
+        });
+        // Play radio station in player
+        window.playRadioStation = function(url, name, country, favicon) {
+            playerTitle.textContent = name;
+            playerArtist.textContent = country;
+            playerArt.innerHTML = favicon ? `<img src='${favicon}' alt='art' style='width:100%;height:100%;object-fit:cover;border-radius:8px;'>` : '📻';
+            audioPlayer.src = url;
+            audioPlayer.load();
+            audioPlayer.play().then(() => {
+                isPlaying = true;
+                playBtn.innerHTML = '⏸';
+                vinylRecord.style.animationPlayState = 'running';
+            }).catch(error => {
+                console.error('Error playing radio:', error);
+            });
+        }
+        // Fetch default (Kenya) stations on load
+        fetchRadioStations('Kenya');
+
+        // Artists Integration
+        const artistListEl = document.getElementById('artistList');
+        const artistCountrySelect = document.getElementById('artistCountrySelect');
+        async function fetchArtists(country = 'Kenya') {
+            artistListEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Loading artists...</div>';
+            try {
+                const res = await fetch(`http://localhost:4000/artists?country=${encodeURIComponent(country)}`);
+                const artists = await res.json();
+                if (!Array.isArray(artists) || artists.length === 0) {
+                    artistListEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">No artists found.</div>';
+                    return;
+                }
+                artistListEl.innerHTML = '';
+                artists.forEach(artist => {
+                    const el = document.createElement('div');
+                    el.className = 'track-item';
+                    el.innerHTML = `
+                        <img src="${artist.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg'}" alt="artist" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">
+                        <div class="track-info">
+                            <div class="track-title">${artist.name}</div>
+                            <div class="track-artist"><a href="${artist.url}" target="_blank" style="color:rgba(255,255,255,0.7);text-decoration:underline;">Last.fm</a></div>
+                        </div>
+                        <div class="track-actions">
+                            <button class="action-btn" title="Play Top Tracks" onclick="tubidySearch('${artist.name}')">▶</button>
+                        </div>
+                    `;
+                    artistListEl.appendChild(el);
+                });
+            } catch (err) {
+                artistListEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Error loading artists.</div>';
+            }
+        }
+        artistCountrySelect.addEventListener('change', () => {
+            fetchArtists(artistCountrySelect.value);
+        });
+        // Fetch default (Kenya) artists on load
+        fetchArtists('Kenya');
+
+        // Initialize
+        renderLibrary();
+
+        // Auth Modal Logic
+        const loginModal = document.getElementById('loginModal');
+        const signupModal = document.getElementById('signupModal');
+        const showLoginBtn = document.getElementById('showLoginBtn');
+        const showSignupBtn = document.getElementById('showSignupBtn');
+        const toSignup = document.getElementById('toSignup');
+        const toLogin = document.getElementById('toLogin');
+        const authButtons = document.getElementById('authButtons');
+        const userStatus = document.getElementById('userStatus');
+        const userWelcome = document.getElementById('userWelcome');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        function showModal(modal) {
+            modal.style.display = 'flex';
+        }
+        function hideModal(modal) {
+            modal.style.display = 'none';
+        }
+        showLoginBtn.onclick = (e) => { e.preventDefault(); showModal(loginModal); };
+        showSignupBtn.onclick = (e) => { e.preventDefault(); showModal(signupModal); };
+        toSignup.onclick = (e) => { e.preventDefault(); hideModal(loginModal); showModal(signupModal); };
+        toLogin.onclick = (e) => { e.preventDefault(); hideModal(signupModal); showModal(loginModal); };
+        window.onclick = (e) => {
+            if (e.target === loginModal) hideModal(loginModal);
+            if (e.target === signupModal) hideModal(signupModal);
+        };
+
+        // Auth State
+        function setUser(username) {
+            localStorage.setItem('jwtUser', username);
+            authButtons.style.display = 'none';
+            userStatus.style.display = 'flex';
+            userWelcome.textContent = `Welcome, ${username}`;
+        }
+        function clearUser() {
+            localStorage.removeItem('jwtUser');
+            authButtons.style.display = 'flex';
+            userStatus.style.display = 'none';
+            userWelcome.textContent = '';
+        }
+        function checkUser() {
+            const username = localStorage.getItem('jwtUser');
+            if (username) setUser(username);
+            else clearUser();
+        }
+        logoutBtn.onclick = (e) => { e.preventDefault(); clearUser(); };
+        checkUser();
+
+        // Login Form
+        document.getElementById('loginForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const loginError = document.getElementById('loginError');
+            loginError.textContent = '';
+            try {
+                const res = await fetch('http://localhost:4000/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('jwtToken', data.token);
+                    setUser(data.username);
+                    hideModal(loginModal);
+                } else {
+                    loginError.textContent = data.error || 'Login failed';
+                }
+            } catch (err) {
+                loginError.textContent = 'Network error';
+            }
+        };
+        // Signup Form
+        document.getElementById('signupForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const signupError = document.getElementById('signupError');
+            signupError.textContent = '';
+            try {
+                const res = await fetch('http://localhost:4000/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    hideModal(signupModal);
+                    showModal(loginModal);
+                } else {
+                    signupError.textContent = data.error || 'Signup failed';
+                }
+            } catch (err) {
+                signupError.textContent = 'Network error';
+            }
+        };
+
+        // Dynamic Genres Integration
+        const genresList = [
+            { name: 'Rock', icon: '🎸' },
+            { name: 'Pop', icon: '🎤' },
+            { name: 'Jazz', icon: '🎺' },
+            { name: 'Classical', icon: '🎻' },
+            { name: 'Electronic', icon: '🎧' },
+            { name: 'Hip Hop', icon: '🎵' }
+        ];
+        const genresContainer = document.getElementById('genresContainer');
+        async function renderGenres() {
+            genresContainer.innerHTML = '';
+            for (const genre of genresList) {
+                const section = document.createElement('div');
+                section.style.marginBottom = '40px';
+                section.innerHTML = `<h2 style="margin-bottom:10px;">${genre.icon} ${genre.name}</h2><div class="music-library" id="genreTracks_${genre.name.replace(/\s/g, '')}"></div>`;
+                genresContainer.appendChild(section);
+                // Fetch tracks for this genre
+                const tracksEl = section.querySelector('.music-library');
+                tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Loading...</div>';
+                try {
+                    const res = await fetch(`http://localhost:4000/genre-tracks?genre=${encodeURIComponent(genre.name)}`);
+                    const tracks = await res.json();
+                    if (!Array.isArray(tracks) || tracks.length === 0) {
+                        tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">No tracks found.</div>';
+                        continue;
+                    }
+                    tracksEl.innerHTML = '';
+                    tracks.forEach(track => {
+                        const el = document.createElement('div');
+                        el.className = 'track-item';
+                        el.innerHTML = `
+                            <img src="${track.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg'}" alt="art" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">
+                            <div class="track-info">
+                                <div class="track-title">${track.title}</div>
+                                <div class="track-artist">${track.artist}</div>
+                            </div>
+                            <div class="track-actions">
+                                <button class="action-btn" title="Play" onclick="tubidySearch('${track.title} ${track.artist}')">▶</button>
+                                <button class="action-btn" title="Download MP3" onclick="tubidySearch('${track.title} ${track.artist}'); setTimeout(() => { document.querySelector('.action-btn[title=\'Download MP3\']').click(); }, 1000);">⬇</button>
+                            </div>
+                        `;
+                        tracksEl.appendChild(el);
+                    });
+                } catch (err) {
+                    tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Error loading tracks.</div>';
+                }
+            }
+        }
+        renderGenres();
+
+        // Dynamic Playlists Integration
+        const playlistsList = [
+            { name: 'Party', icon: '🎉' },
+            { name: 'Chill', icon: '🛋️' },
+            { name: 'Workout', icon: '💪' },
+            { name: 'Romance', icon: '❤️' },
+            { name: 'Focus', icon: '🎯' },
+            { name: 'Throwback', icon: '⏪' }
+        ];
+        const playlistsContainer = document.getElementById('playlistsContainer');
+        async function renderPlaylists() {
+            playlistsContainer.innerHTML = '';
+            for (const playlist of playlistsList) {
+                const section = document.createElement('div');
+                section.style.marginBottom = '40px';
+                section.innerHTML = `<h2 style="margin-bottom:10px;">${playlist.icon} ${playlist.name}</h2><div class="music-library" id="playlistTracks_${playlist.name.replace(/\s/g, '')}"></div>`;
+                playlistsContainer.appendChild(section);
+                // Fetch tracks for this playlist
+                const tracksEl = section.querySelector('.music-library');
+                tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Loading...</div>';
+                try {
+                    const res = await fetch(`http://localhost:4000/playlist-tracks?playlist=${encodeURIComponent(playlist.name.toLowerCase())}`);
+                    const tracks = await res.json();
+                    if (!Array.isArray(tracks) || tracks.length === 0) {
+                        tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">No tracks found.</div>';
+                        continue;
+                    }
+                    tracksEl.innerHTML = '';
+                    tracks.forEach(track => {
+                        const el = document.createElement('div');
+                        el.className = 'track-item';
+                        el.innerHTML = `
+                            <img src="${track.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg'}" alt="art" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">
+                            <div class="track-info">
+                                <div class="track-title">${track.title}</div>
+                                <div class="track-artist">${track.artist}</div>
+                            </div>
+                            <div class="track-actions">
+                                <button class="action-btn" title="Play" onclick="tubidySearch('${track.title} ${track.artist}')">▶</button>
+                                <button class="action-btn" title="Download MP3" onclick="tubidySearch('${track.title} ${track.artist}'); setTimeout(() => { document.querySelector('.action-btn[title=\'Download MP3\']').click(); }, 1000);">⬇</button>
+                            </div>
+                        `;
+                        tracksEl.appendChild(el);
+                    });
+                } catch (err) {
+                    tracksEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Error loading tracks.</div>';
+                }
+            }
+        }
+        renderPlaylists();
+
+        // Helper: get JWT token
+        function getJwtToken() {
+            return localStorage.getItem('jwtToken');
+        }
+        // Helper: is user logged in
+        function isLoggedIn() {
+            return !!getJwtToken();
+        }
+        // Like/Unlike logic
+        async function likeSong(title, artist, image) {
+            if (!isLoggedIn()) return alert('Please sign in to like songs.');
+            await fetch('http://localhost:4000/liked', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
+                body: JSON.stringify({ title, artist, image })
+            });
+            renderLikedSongs();
+        }
+        async function unlikeSong(title, artist) {
+            if (!isLoggedIn()) return;
+            await fetch('http://localhost:4000/liked', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
+                body: JSON.stringify({ title, artist })
+            });
+            renderLikedSongs();
+        }
+        async function getLikedSongs() {
+            if (!isLoggedIn()) return [];
+            const res = await fetch('http://localhost:4000/liked', {
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            return await res.json();
+        }
+        // Render Liked Songs playlist
+        async function renderLikedSongs() {
+            const likedSongsEl = document.getElementById('likedSongsContainer');
+            if (!likedSongsEl) return;
+            if (!isLoggedIn()) {
+                likedSongsEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Sign in to see your liked songs.</div>';
+                return;
+            }
+            likedSongsEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Loading...</div>';
+            const liked = await getLikedSongs();
+            if (!Array.isArray(liked) || liked.length === 0) {
+                likedSongsEl.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">No liked songs yet.</div>';
+                return;
+            }
+            likedSongsEl.innerHTML = '';
+            liked.forEach(track => {
+                const el = document.createElement('div');
+                el.className = 'track-item';
+                el.innerHTML = `
+                    <img src="${track.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg'}" alt="art" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">
+                    <div class="track-info">
+                        <div class="track-title">${track.title}</div>
+                        <div class="track-artist">${track.artist}</div>
+                    </div>
+                    <div class="track-actions">
+                        <button class="action-btn" title="Unlike" onclick="unlikeSong('${track.title}','${track.artist}')">♥</button>
+                        <button class="action-btn" title="Play" onclick="tubidySearch('${track.title} ${track.artist}')">▶</button>
+                        <button class="action-btn" title="Download MP3" onclick="tubidySearch('${track.title} ${track.artist}'); setTimeout(() => { document.querySelector('.action-btn[title=\'Download MP3\']').click(); }, 1000);">⬇</button>
+                    </div>
+                `;
+                likedSongsEl.appendChild(el);
+            });
+        }
+        // Patch: Add Like button to all track renders (search, trending, genres, playlists)
+        // Example for search results:
+        // ...in tubidySearch, trending, genres, playlists, add:
+        // if (isLoggedIn()) { ... add Like/Unlike button ... }
+        // For brevity, only show for search results here:
+        // ... existing code ...
+        // In tubidySearch, after results.forEach:
+        // Replace:
+        // <div class="track-actions"> ... </div>
+        // With:
+        // <div class="track-actions">
+        //   ${isLoggedIn() ? `<button class="action-btn" title="Like" onclick="likeSong('${item.title}','${item.channel}','${item.thumbnail}')">♡</button>` : ''}
+        //   ...other buttons...
+        // </div>
+        // ... existing code ...
+        // Add Liked Songs playlist to Playlists page
+        // ...in Playlists page section...
+        // <div id="likedSongsContainer" class="music-library"></div>
+        // ... existing code ...
+        // On login/logout, call renderLikedSongs
+        // ...in setUser and clearUser...
+        // setUser: renderLikedSongs();
+        // clearUser: renderLikedSongs();
+        // ... existing code ...
+
+        // User Playlists UI
+        const userPlaylistsSection = document.getElementById('userPlaylistsSection');
+        async function renderUserPlaylists() {
+            if (!isLoggedIn()) {
+                userPlaylistsSection.innerHTML = '';
+                return;
+            }
+            userPlaylistsSection.innerHTML = `
+                <div style="margin-bottom:20px;">
+                    <h2 style="margin-bottom:10px;">Your Playlists</h2>
+                    <form id="createPlaylistForm" style="display:flex;gap:10px;margin-bottom:15px;">
+                        <input type="text" id="newPlaylistName" class="search-box" placeholder="New playlist name" required style="flex:1;">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                    <div id="userPlaylistsList"></div>
+                </div>
+            `;
+            document.getElementById('createPlaylistForm').onsubmit = async function(e) {
+                e.preventDefault();
+                const name = document.getElementById('newPlaylistName').value.trim();
+                if (!name) return;
+                await fetch('http://localhost:4000/playlists', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
+                    body: JSON.stringify({ name })
+                });
+                renderUserPlaylists();
+            };
+            // Fetch and render playlists
+            const res = await fetch('http://localhost:4000/playlists', {
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            const playlists = await res.json();
+            const listEl = document.getElementById('userPlaylistsList');
+            if (!Array.isArray(playlists) || playlists.length === 0) {
+                listEl.innerHTML = '<div style="color:rgba(255,255,255,0.7);">No playlists yet.</div>';
+                return;
+            }
+            listEl.innerHTML = '';
+            for (const pl of playlists) {
+                const plDiv = document.createElement('div');
+                plDiv.style.marginBottom = '10px';
+                plDiv.innerHTML = `<span style="font-weight:600;">${pl.name}</span> <button class="btn btn-signin" style="margin-left:10px;" onclick="deletePlaylist(${pl.id})">Delete</button> <button class="btn btn-primary" style="margin-left:10px;" onclick="viewPlaylist(${pl.id},'${pl.name.replace(/'/g, '\'')}')">View</button>`;
+                listEl.appendChild(plDiv);
+            }
+        }
+        async function deletePlaylist(id) {
+            await fetch(`http://localhost:4000/playlists/${id}`, {
+                method: 'DELETE',
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            renderUserPlaylists();
+        }
+        async function viewPlaylist(id, name) {
+            const res = await fetch(`http://localhost:4000/playlists/${id}/tracks`, {
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            const tracks = await res.json();
+            const modal = document.createElement('div');
+            modal.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:3000;display:flex;align-items:center;justify-content:center;';
+            modal.innerHTML = `<div style="background:#222;padding:30px 40px;border-radius:15px;max-width:500px;width:100%;color:white;max-height:80vh;overflow:auto;">
+                <h2 style="margin-bottom:20px;">${name}</h2>
+                <div id="playlistTracksModal"></div>
+                <div style="text-align:right;margin-top:20px;"><button class="btn btn-signin" onclick="document.body.removeChild(this.closest('[data-modal]'))">Close</button></div>
+            </div>`;
+            modal.setAttribute('data-modal', '');
+            document.body.appendChild(modal);
+            const tracksEl = modal.querySelector('#playlistTracksModal');
+            if (!Array.isArray(tracks) || tracks.length === 0) {
+                tracksEl.innerHTML = '<div style="color:rgba(255,255,255,0.7);">No tracks in this playlist.</div>';
+                return;
+            }
+            tracksEl.innerHTML = '';
+            tracks.forEach(track => {
+                const el = document.createElement('div');
+                el.className = 'track-item';
+                el.innerHTML = `
+                    <img src="${track.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg'}" alt="art" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">
+                    <div class="track-info">
+                        <div class="track-title">${track.title}</div>
+                        <div class="track-artist">${track.artist}</div>
+                    </div>
+                    <div class="track-actions">
+                        <button class="action-btn" title="Remove from Playlist" onclick="removeFromPlaylist(${id},'${track.title}','${track.artist}')">🗑️</button>
+                        <button class="action-btn" title="Play" onclick="tubidySearch('${track.title} ${track.artist}')">▶</button>
+                        <button class="action-btn" title="Download MP3" onclick="tubidySearch('${track.title} ${track.artist}'); setTimeout(() => { document.querySelector('.action-btn[title=\'Download MP3\']').click(); }, 1000);">⬇</button>
+                    </div>
+                `;
+                tracksEl.appendChild(el);
+            });
+        }
+        async function removeFromPlaylist(id, title, artist) {
+            await fetch(`http://localhost:4000/playlists/${id}/tracks`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
+                body: JSON.stringify({ title, artist })
+            });
+            document.querySelector('[data-modal]')?.remove();
+            renderUserPlaylists();
+        }
+        // Add to Playlist button for tracks
+        async function addToPlaylistUI(title, artist, image) {
+            if (!isLoggedIn()) return alert('Please sign in to use playlists.');
+            // Fetch playlists
+            const res = await fetch('http://localhost:4000/playlists', {
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            const playlists = await res.json();
+            if (!Array.isArray(playlists) || playlists.length === 0) return alert('Create a playlist first!');
+            // Show modal to pick playlist
+            const modal = document.createElement('div');
+            modal.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:3000;display:flex;align-items:center;justify-content:center;';
+            modal.innerHTML = `<div style="background:#222;padding:30px 40px;border-radius:15px;max-width:350px;width:100%;color:white;">
+                <h2 style="margin-bottom:20px;">Add to Playlist</h2>
+                <div id="playlistPickList"></div>
+                <div style="text-align:right;margin-top:20px;"><button class="btn btn-signin" onclick="document.body.removeChild(this.closest('[data-modal]'))">Cancel</button></div>
+            </div>`;
+            modal.setAttribute('data-modal', '');
+            document.body.appendChild(modal);
+            const pickList = modal.querySelector('#playlistPickList');
+            playlists.forEach(pl => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-primary';
+                btn.style.marginBottom = '10px';
+                btn.textContent = pl.name;
+                btn.onclick = async () => {
+                    await fetch(`http://localhost:4000/playlists/${pl.id}/tracks`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getJwtToken() },
+                        body: JSON.stringify({ title, artist, image })
+                    });
+                    document.body.removeChild(modal);
+                    renderUserPlaylists();
+                };
+                pickList.appendChild(btn);
+            });
+        }
+        // Patch: Add 'Add to Playlist' button to all track renders (search, trending, genres, playlists)
+        // Example for search results:
+        // ...in tubidySearch, trending, genres, playlists, add:
+        // if (isLoggedIn()) { ... add Add to Playlist button ... }
+        // For brevity, only show for search results here:
+        // ... existing code ...
+        // On login/logout, call renderUserPlaylists
+        // ...in setUser and clearUser...
+        // setUser: renderUserPlaylists();
+        // clearUser: renderUserPlaylists();
+        // ... existing code ...
+
+        // Profile Page Logic
+        const profileNavLink = document.getElementById('profileNavLink');
+        function renderProfilePage() {
+            const profileContent = document.getElementById('profileContent');
+            if (!isLoggedIn()) {
+                profileContent.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Sign in to view your profile.</div>';
+                return;
+            }
+            const username = localStorage.getItem('jwtUser');
+            profileContent.innerHTML = `<div style="margin-bottom:20px;"><strong>Username:</strong> ${username}</div>`;
+            // User Playlists
+            profileContent.innerHTML += `<div style="margin-bottom:20px;"><h2>Your Playlists</h2><div id="profilePlaylists"></div></div>`;
+            // Liked Songs
+            profileContent.innerHTML += `<div style="margin-bottom:20px;"><h2>Liked Songs</h2><div id="profileLikedSongs"></div></div>`;
+            // Recently Played
+            profileContent.innerHTML += `<div style="margin-bottom:20px;"><h2>Recently Played</h2><div id="profileRecentlyPlayed"></div></div>`;
+            renderProfilePlaylists();
+            renderProfileLikedSongs();
+            renderProfileRecentlyPlayed();
+        }
+        async function renderProfilePlaylists() {
+            const el = document.getElementById('profilePlaylists');
+            const res = await fetch('http://localhost:4000/playlists', {
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            const playlists = await res.json();
+            if (!Array.isArray(playlists) || playlists.length === 0) {
+                el.innerHTML = '<div style="color:rgba(255,255,255,0.7);">No playlists yet.</div>';
+                return;
+            }
+            el.innerHTML = '';
+            playlists.forEach(pl => {
+                const div = document.createElement('div');
+                div.style.marginBottom = '10px';
+                div.innerHTML = `<span style="font-weight:600;">${pl.name}</span> <button class="btn btn-primary" style="margin-left:10px;" onclick="viewPlaylist(${pl.id},'${pl.name.replace(/'/g, '\'')}')">View</button>`;
+                el.appendChild(div);
+            });
+        }
+        async function renderProfileLikedSongs() {
+            const el = document.getElementById('profileLikedSongs');
+            const liked = await getLikedSongs();
+            if (!Array.isArray(liked) || liked.length === 0) {
+                el.innerHTML = '<div style="color:rgba(255,255,255,0.7);">No liked songs yet.</div>';
+                return;
+            }
+            el.innerHTML = '';
+            liked.forEach(track => {
+                const div = document.createElement('div');
+                div.className = 'track-item';
+                div.innerHTML = `
+                    <img src="${track.image || 'https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg'}" alt="art" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">
+                    <div class="track-info">
+                        <div class="track-title">${track.title}</div>
+                        <div class="track-artist">${track.artist}</div>
+                    </div>
+                    <div class="track-actions">
+                        <button class="action-btn" title="Play" onclick="tubidySearch('${track.title} ${track.artist}')">▶</button>
+                    </div>
+                `;
+                el.appendChild(div);
+            });
+        }
+        function renderProfileRecentlyPlayed() {
+            const el = document.getElementById('profileRecentlyPlayed');
+            const played = getRecentlyPlayed();
+            if (!Array.isArray(played) || played.length === 0) {
+                el.innerHTML = '<div style="color:rgba(255,255,255,0.7);">No recently played tracks.</div>';
+                return;
+            }
+            el.innerHTML = '';
+            played.forEach(track => {
+                const div = document.createElement('div');
+                div.className = 'track-item';
+                div.innerHTML = `
+                    <img src="${track.thumbnail || 'https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg'}" alt="art" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">
+                    <div class="track-info">
+                        <div class="track-title">${track.title}</div>
+                        <div class="track-artist">${track.channel || track.artist || ''}</div>
+                    </div>
+                    <div class="track-actions">
+                        <button class="action-btn" title="Play" onclick="tubidySearch('${track.title} ${track.channel || track.artist || ''}')">▶</button>
+                    </div>
+                `;
+                el.appendChild(div);
+            });
+        }
+        // Show/hide Profile nav link based on login
+        function updateProfileNavLink() {
+            profileNavLink.style.display = isLoggedIn() ? '' : 'none';
+        }
+        // On login/logout, update Profile nav link and render profile
+        // ...in setUser and clearUser...
+        // setUser: updateProfileNavLink();
+        // clearUser: updateProfileNavLink();
+        // On nav click, render profile
+        profileNavLink.addEventListener('click', () => { renderProfilePage(); });
+        // ... existing code ...
+
+        // Admin Page Logic
+        const adminNavLink = document.getElementById('adminNavLink');
+        function renderAdminPage() {
+            const adminContent = document.getElementById('adminContent');
+            if (!isLoggedIn() || localStorage.getItem('jwtUser') !== 'admin') {
+                adminContent.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7);">Admin only.</div>';
+                return;
+            }
+            adminContent.innerHTML = `<div style="margin-bottom:20px;"><h2>Users</h2><div id="adminUsers"></div></div><div style="margin-bottom:20px;"><h2>Playlists</h2><div id="adminPlaylists"></div></div>`;
+            renderAdminUsers();
+            renderAdminPlaylists();
+        }
+        async function renderAdminUsers() {
+            const el = document.getElementById('adminUsers');
+            const res = await fetch('http://localhost:4000/admin/users', {
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            const users = await res.json();
+            if (!Array.isArray(users) || users.length === 0) {
+                el.innerHTML = '<div style="color:rgba(255,255,255,0.7);">No users found.</div>';
+                return;
+            }
+            el.innerHTML = '';
+            users.forEach(user => {
+                const div = document.createElement('div');
+                div.style.marginBottom = '10px';
+                div.innerHTML = `<span style="font-weight:600;">${user.username}</span> <button class="btn btn-signin" style="margin-left:10px;" onclick="deleteUser(${user.id})">Delete</button>`;
+                el.appendChild(div);
+            });
+        }
+        async function deleteUser(id) {
+            await fetch(`http://localhost:4000/admin/users/${id}`, {
+                method: 'DELETE',
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            renderAdminUsers();
+        }
+        async function renderAdminPlaylists() {
+            const el = document.getElementById('adminPlaylists');
+            const res = await fetch('http://localhost:4000/admin/playlists', {
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            const playlists = await res.json();
+            if (!Array.isArray(playlists) || playlists.length === 0) {
+                el.innerHTML = '<div style="color:rgba(255,255,255,0.7);">No playlists found.</div>';
+                return;
+            }
+            el.innerHTML = '';
+            playlists.forEach(pl => {
+                const div = document.createElement('div');
+                div.style.marginBottom = '10px';
+                div.innerHTML = `<span style="font-weight:600;">${pl.name}</span> (User ID: ${pl.user_id}) <button class="btn btn-signin" style="margin-left:10px;" onclick="deleteAdminPlaylist(${pl.id})">Delete</button>`;
+                el.appendChild(div);
+            });
+        }
+        async function deleteAdminPlaylist(id) {
+            await fetch(`http://localhost:4000/admin/playlists/${id}`, {
+                method: 'DELETE',
+                headers: { Authorization: 'Bearer ' + getJwtToken() }
+            });
+            renderAdminPlaylists();
+        }
+        // Show/hide Admin nav link based on login and user
+        function updateAdminNavLink() {
+            adminNavLink.style.display = (isLoggedIn() && localStorage.getItem('jwtUser') === 'admin') ? '' : 'none';
+        }
+        // On login/logout, update Admin nav link
+        // ...in setUser and clearUser...
+        // setUser: updateAdminNavLink();
+        // clearUser: updateAdminNavLink();
+        // On nav click, render admin
+        adminNavLink.addEventListener('click', () => { renderAdminPage(); });
+        // ... existing code ...
+    </script>
+    <script>
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('service-worker.js');
+            });
+        }
+    </script>
+</body>
+</html>
