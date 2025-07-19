@@ -1574,7 +1574,6 @@
         const tubidySearchBox = document.getElementById('tubidySearchBox');
         const tubidySearchBtn = document.getElementById('tubidySearchBtn');
         const tubidyResults = document.getElementById('tubidyResults');
-        updateI18n();
 
         async function tubidySearch(query) {
             tubidyResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].loadingTrending}</div>`;
@@ -2529,6 +2528,11 @@
                 navigator.serviceWorker.register('service-worker.js');
             });
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            updateI18n();
+        });
     </script>
 </body>
 </html>
