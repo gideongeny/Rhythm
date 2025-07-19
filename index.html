@@ -668,8 +668,10 @@
         }
     </style>
     <link rel="manifest" href="manifest.json">
+    <!-- Comment out the icon links:
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    -->
 </head>
 <body>
     <nav class="navbar">
@@ -1171,8 +1173,6 @@
             renderRecentSearches();
             renderRecentlyPlayed();
         }
-        // On load, apply language
-        updateI18n();
 
         // Navigation functionality
         function showPage(pageId) {
@@ -1574,6 +1574,7 @@
         const tubidySearchBox = document.getElementById('tubidySearchBox');
         const tubidySearchBtn = document.getElementById('tubidySearchBtn');
         const tubidyResults = document.getElementById('tubidyResults');
+        updateI18n();
 
         async function tubidySearch(query) {
             tubidyResults.innerHTML = `<div style=\"text-align:center; color:rgba(255,255,255,0.7);\">${i18n[currentLang].loadingTrending}</div>`;
