@@ -1941,12 +1941,16 @@
             authButtons.style.display = 'none';
             userStatus.style.display = 'flex';
             userWelcome.textContent = `Welcome, ${username}`;
+            updateProfileNavLink();
+            updateAdminNavLink();
         }
         function clearUser() {
             localStorage.removeItem('jwtUser');
             authButtons.style.display = 'flex';
             userStatus.style.display = 'none';
             userWelcome.textContent = '';
+            updateProfileNavLink();
+            updateAdminNavLink();
         }
         function checkUser() {
             const username = localStorage.getItem('jwtUser');
